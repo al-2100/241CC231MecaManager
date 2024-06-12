@@ -24,7 +24,7 @@ public class Cliente {
     private String direccion;
     private String sexo;
 
-    @Column(unique = true) // Para que no se repitan los teléfonos
+    @Column(unique = true)
     private String telefono;
 }
 
