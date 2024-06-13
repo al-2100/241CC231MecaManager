@@ -28,7 +28,7 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
 
-    @GetMapping("/listar")
+    @RequestMapping(value="/listar", method=RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Cliente>> getClientes() {
         List<Cliente> listaClientes = null;
         try {

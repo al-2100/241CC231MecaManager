@@ -16,7 +16,7 @@ public class ProblemaService {
 
     public List<Problema> getProblemas(){return problemaRepository.findAll();}
 
-    public Optional<Problema> getProblemaById(Long id_problema){return problemaRepository.findsById(id_problema);}
+    public Optional<Problema> getProblemaById(Long id_problema){return problemaRepository.findById(id_problema);}
 
     public void saveOrUpdateProblema(Problema problema){ problemaRepository.save(problema); }
 

@@ -9,7 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface TecnicoRepository extends JpaRepository<Tecnico, Integer> {
-    @Override
-    Optional<Tecnico> findById(Integer integer);
-    boolean existsById(Integer integer);
 }
