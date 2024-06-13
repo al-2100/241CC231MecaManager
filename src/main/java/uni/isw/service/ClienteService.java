@@ -23,6 +23,10 @@ public class ClienteService {
         return clienteRepository.findById(id_cliente);
     }
 
+    public Optional<Cliente> findByDni(Long dni) {
+        return clienteRepository.findByDni(String.valueOf(dni));
+    }
+
     public void saveOrUpdateCliente(Cliente cliente) {
         clienteRepository.save(cliente);
     }
