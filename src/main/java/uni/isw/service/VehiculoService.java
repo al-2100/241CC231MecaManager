@@ -26,6 +26,10 @@ public class VehiculoService {
         vehiculoRepository.save(vehiculo);
     }
 
+    public Optional<Vehiculo> findbyPLaca(String placa) {
+        return vehiculoRepository.findByPlaca(placa);
+    }
+
     public void deleteVehiculo(Long id) {
         vehiculoRepository.deleteById(id);
     }

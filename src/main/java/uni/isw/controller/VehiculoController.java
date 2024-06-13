@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uni.isw.model.Cliente;
 import uni.isw.model.Vehiculo;
 import uni.isw.service.VehiculoService;
 import org.slf4j.Logger;
@@ -43,7 +44,17 @@ public class VehiculoController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @RequestMapping(value="/searchPlaca", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchbyPlaca(@RequestBody Optional<Vehiculo> vehiculo) {
+        try {
+            vehiculo = vehiculoService.findbyPLaca(vehiculo.get().getPlaca());
+            return vehiculo.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @RequestMapping(value="/insert", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vehiculo> insertVehiculo(@RequestBody Vehiculo vehiculo) {
         try {
