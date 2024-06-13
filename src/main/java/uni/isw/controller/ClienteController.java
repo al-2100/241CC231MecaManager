@@ -52,6 +52,18 @@ public class ClienteController {
         }
     }
 
+    @RequestMapping(value="/searchDNI", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchbyDNI(@RequestBody Optional<Cliente> cliente) {
+        try {
+            cliente = clienteService.findByDni(Long.valueOf(cliente.get().getDni()));
+            return cliente.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            logger.error("Error inesperado", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value="/insert", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cliente> insertCliente(@RequestBody Cliente cliente) {
         // Verificar si el DNI ya existe
