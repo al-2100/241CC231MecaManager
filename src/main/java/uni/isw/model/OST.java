@@ -1,9 +1,11 @@
 package uni.isw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,7 +28,7 @@ public class OST {
     private LocalDateTime fechahora;
 
     @Column(name = "fallareportada")
-    private String fallaReportada;
+    private String fallareportada;
 
     @Column(name = "diagnostico")
     private String diagnostico;
@@ -36,5 +38,9 @@ public class OST {
 
     @Column(name = "estado")
     private String estado;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "ost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trabajo> trabajos;
 }
 

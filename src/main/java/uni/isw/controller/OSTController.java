@@ -61,12 +61,7 @@ public class OSTController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OST> insertOST(@RequestBody OST ost) {
         try {
-            Optional<Vehiculo> vehiculo = vehiculoRepository.findById(ost.getVehiculo().getIdVehiculo());
-            if (vehiculo.isEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-            Optional<Cliente> cliente = clienteRepository.findById(ost.getCliente().getId_cliente());
-            if (cliente.isEmpty()) {
+            if (ost.getVehiculo() == null || ost.getCliente() == null || ost.getFallareportada() == null) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
 

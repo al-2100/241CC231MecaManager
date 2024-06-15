@@ -1,7 +1,10 @@
 package uni.isw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -26,5 +29,10 @@ public class Cliente {
 
     @Column(unique = true)
     private String telefono;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OST> ordenesServicioTecnico;
+
 }
 
