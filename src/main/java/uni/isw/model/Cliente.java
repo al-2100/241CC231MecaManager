@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_cliente")
     private Long id_cliente;
 
