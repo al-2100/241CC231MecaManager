@@ -82,12 +82,24 @@ public class ClienteController {
     @RequestMapping(value="/update", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente) {
         try {
-            clienteService.saveOrUpdateCliente(cliente);
+            Optional<Cliente> existingCliente = clienteService.getClienteById(cliente.getId_cliente());
+            if (existingCliente.isPresent()) {
+                Cliente savedCliente = existingCliente.get();
+                savedCliente.setDni(cliente.getDni());
+                savedCliente.setNombres(cliente.getNombres());
+                savedCliente.setApellidos(cliente.getApellidos());
+                savedCliente.setDireccion(cliente.getDireccion());
+                savedCliente.setSexo(cliente.getSexo());
+                savedCliente.setTelefono(cliente.getTelefono());
+                clienteService.saveOrUpdateCliente(savedCliente);
+                return new ResponseEntity<>(savedCliente, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             logger.error("Error inesperado", e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
     @RequestMapping(value="/delete", method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
