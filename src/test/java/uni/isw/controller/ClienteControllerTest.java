@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.server.ResponseStatusException;
 import uni.isw.model.Cliente;
+import uni.isw.repository.ClienteRepository;
 import uni.isw.service.ClienteService;
 
 import java.util.ArrayList;
@@ -46,6 +47,12 @@ public class ClienteControllerTest {
     private ObjectMapper objectMapper;
 
     private Cliente cliente1, cliente2;
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @MockBean
+    private ClienteRepository clienteRepositoryMock;
+
 
     @BeforeEach
     public void init() {
@@ -70,11 +77,7 @@ public class ClienteControllerTest {
 
     @Test
     public void ClienteController_Insert() throws Exception {
-        doAnswer(invocation -> {
-            Cliente cliente = invocation.getArgument(0);
-            cliente.setId_cliente(1L);
-            return null;
-        }).when(clienteService).saveOrUpdateCliente(any(Cliente.class));
+        given(clienteRepositoryMock.existsByDni(cliente1.getDni())).willReturn(true);
 
         mockMvc.perform(post("/api/v1/cliente/insert")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,6 +135,9 @@ public class ClienteControllerTest {
 
     @Test
     public void ClienteController_update() throws Exception {
+
+        given(clienteService.getClienteById(cliente1.getId_cliente())).willReturn(Optional.of(cliente1));
+
         doAnswer(invocation -> {
             Cliente cliente = invocation.getArgument(0);
             cliente.setId_cliente(1L);
